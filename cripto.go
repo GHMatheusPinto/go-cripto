@@ -8,10 +8,12 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"os"
 )
 
 func main() {
-	var senha, decripto string
+	var senha string
+	var decripto bool
 	fmt.Println("Informe sua senha para criptografá-la:")
 	fmt.Scanln(&senha)
 	text := []byte(senha)
@@ -21,18 +23,24 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	fmt.Printf("Sua senha criptografada é: %x\n", ciphertext)
 
 	fmt.Println("Deseja decriptografá-la?")
 	fmt.Scanln(&decripto)
 
-	if decripto = "SIM" {
-	plaintext, err := decrypt(ciphertext, key)
-	if err != nil {
-		log.Fatal(err)
+	if decripto == true {
+		plaintext, err := decrypt(ciphertext, key)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Sua senha decriptografada é: %s\n", plaintext)
 	}
-	fmt.Printf("Sua senha decriptografada é: %s\n", plaintext)
+
+	if decripto == false {
+		os.Exit(3)
 	}
+
 }
 
 func encrypt(plaintext []byte, key []byte) ([]byte, error) {
